@@ -1,4 +1,6 @@
 # Compiled Object files
+Debug/
+Release/
 *.slo
 *.lo
 *.o
@@ -19,3 +21,20 @@
 *.exe
 *.out
 *.app
+
+# Project files
+*.vcproj
+*.vcxproj
+*.sln
+*.user
+*.filters
+*.suo
+*.ncb
+*.ipch
+*.sdf
+*.opensdf
+
+# CMake temporaries
+CMakeFiles/
+*.cmake
+CMakeCache.txt
