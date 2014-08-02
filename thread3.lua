@@ -5,7 +5,7 @@
 
 
 
-function Run()
+return function()
 	print("thread3 running")
 	local EndTime = os.clock() + 3
 	while (os.clock() < EndTime) do

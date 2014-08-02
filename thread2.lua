@@ -6,7 +6,7 @@
 
 
 
-function Run()
+return function()
 	print("This is thread 2, about to sleep.")
 	sleep(500)
 	print("Thread 2 has finished sleeping, will now run.")

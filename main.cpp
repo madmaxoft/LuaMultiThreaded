@@ -23,10 +23,9 @@ DWORD __stdcall thrExecute(LPVOID a_Param)
 	lua_State * T = lua_newthread(g_L);
 	std::cout << "Executing " << FileName << std::endl;
 	luaL_dofile(T, FileName);
-	lua_getglobal(T, "Run");
 	if (!lua_isfunction(T, -1))
 	{
-		std::cout << "Error in " << FileName << ": Run() function not found ('" << lua_typename(T, -1) << "' instead of 'function'). Thread terminating." << std::endl;
+		std::cout << "Error in " << FileName << ": doesn't return a function ('" << lua_typename(T, lua_type(T, -1)) << "' instead of 'function'). Thread terminating." << std::endl;
 		return 0;
 	}
 	lua_call(T, 0, 0);

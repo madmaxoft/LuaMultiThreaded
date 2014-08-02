@@ -5,7 +5,7 @@
 
 
 
-function Run()
+return function()
 	print("Hello from thread1")
 	local EndTime = os.clock() + 3
 	while (os.clock() < EndTime) do
