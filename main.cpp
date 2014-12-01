@@ -1,5 +1,6 @@
 
 #include "Globals.h"  // NOTE: MSVC stupidness requires this to be the same across all modules
+#include <chrono>
 
 extern "C"
 {
@@ -30,7 +31,7 @@ DWORD __stdcall thrExecute(LPVOID a_Param)
 	}
 	lua_call(T, 0, 0);
 	std::cout << "Finished executing " << FileName << std::endl;
-	// There is no call to explicitly close a thread?
+	// There is no call to explicitly close a thread - it will be collected on its own eventually
 	return 0;
 }
 
@@ -85,6 +86,7 @@ int main( int argc, char **argv)
 		ThreadHandles.push_back(CreateThread(NULL, 0, thrExecute, (LPVOID)argv[i], CREATE_SUSPENDED, &thID));
 		ThreadIDs.push_back(thID);
 	}
+	std::chrono::system_clock::time_point start = std::chrono::system_clock::now();
 	for (int i = 1; i < argc; i++)
 	{
 		ResumeThread(ThreadHandles[i - 1]);
@@ -95,6 +97,13 @@ int main( int argc, char **argv)
 	
 	// Clean up:
 	lua_close(g_L);
+
+	// Report the lock statistics:
+	std::cout << "Total number of lock operations: " << g_NumLocks << std::endl;
+	std::chrono::system_clock::duration runtime = std::chrono::system_clock::now() - start;
+	double locksPerSecond = static_cast<double>(g_NumLocks) / std::chrono::duration_cast<std::chrono::seconds>(runtime).count();
+	std::cout << "That is average " << locksPerSecond << " locks per second." << std::endl;
+
 	std::cout << "All done, program terminating." << std::endl;
 	return 0;
 }

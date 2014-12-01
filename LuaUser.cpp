@@ -47,9 +47,16 @@ protected:
 
 
 
+size_t g_NumLocks = 0;
+
+
+
+
+
 void LuaLock(lua_State * L)
 {
 	g_CS.Enter();
+	g_NumLocks += 1;
 }
 
 
